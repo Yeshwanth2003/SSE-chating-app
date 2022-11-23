@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <label for="msg">Message</label>
+    <input type="text" id="msg">
+    <label for="who">To</label>
+    <input type="text" id="who">
+    <button>Click</button>
+  </fieldset>
+</body>
+<script>
+  let name = prompt('What is your name')
+  let url = "/events?name="+name
+  console.log(url)
+  let button = document.querySelector("button");
+  
+  let SSE = new EventSource(url);
+  
+  SSE.onopen = (e)=>{
+    console.log(e);
+    console.log("Connected")
+  } 
+
+  SSE.onmessage = (e)=>{
+     let data =  JSON.parse(e.data);
+     
+     let div = document.createElement('div')
+     let b = document.createElement('b')
+     b.innerText = data.from
+
+     let msg = document.createElement('p')
+     msg.innerText = data.msg
+
+     div.appendChild(b)
+     div.appendChild(msg)
+     document.body.appendChild(div)
+
+  }
+
+  button.onclick = function(){
+       
+     let inp = document.querySelectorAll("input");
+     let msg = inp[0].value
+     let to = inp[1].value
+     if(to ==''){
+      alert('Must include to')
+      return
+     }
+
+     fetch('/post',{
+      method:'POST',
+      body:JSON.stringify({msg,to,from:name})
+     })
+
+  }
+  
+</script>
+</html>

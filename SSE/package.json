@@ -1,0 +1,11 @@
+{
+  "name": "sse",
+  "version": "1.0.0",
+  "description": "SSE serevr ",
+  "main": "sseMain.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yeshwanth",
+  "license": "ISC"
+}
